@@ -2,13 +2,13 @@
   "1": {
     "title": "How to print",
     "content": "How to print . To print a page of this website it is suggested to enable the reader before printing it . Safari: Shift+CMD+R | Firefox Widnows: CTRL+Alt+R | Mac OS: CMD+Alt+R | . | Chrome (should work directly with print) | .",
-    "url": "https://github.mit.edu/pages/VNAV2020/handouts/about",
+    "url": "http://localhost:4000/VNAV2020-handouts/about",
     "relUrl": "/about"
   },
   "2": {
     "title": "Home",
     "content": "16.485 - Visual Navigation for Autonomous Vehicles (2020) . . Learn about the mathematical foundations of visual navigation (spanning from geometry to optimization), state-of-the-art algorithms, and software packages. . In this pages you will find tutorials and exercises from the class. .",
-    "url": "https://github.mit.edu/pages/VNAV2020/handouts/",
+    "url": "http://localhost:4000/VNAV2020-handouts/",
     "relUrl": "/"
   }
   

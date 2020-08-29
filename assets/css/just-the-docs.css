@@ -409,7 +409,7 @@ th {
   .alert-info:before {
     min-width: 3em;
     background-color: #7ebb7a;
-    background-image: url("/pages/VNAV2020/handouts//assets/images/info.svg");
+    background-image: url("/VNAV2020-handouts//assets/images/info.svg");
     fill: white; }
   .alert-info .alert-title {
     color: #7ebb7a; }
@@ -420,7 +420,7 @@ th {
   .alert-warning:before {
     min-width: 3em;
     background-color: #ffc848;
-    background-image: url("/pages/VNAV2020/handouts//assets/images/warning.svg");
+    background-image: url("/VNAV2020-handouts//assets/images/warning.svg");
     fill: white; }
   .alert-warning .alert-title {
     color: #ffc848; }
