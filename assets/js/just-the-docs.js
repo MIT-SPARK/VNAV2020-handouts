@@ -44,7 +44,7 @@ function initNav() {
 
 function initSearch() {
   var request = new XMLHttpRequest();
-  request.open('GET', 'http://localhost:4000/VNAV2020-handouts/assets/js/search-data.json', true);
+  request.open('GET', 'https://mit-spark.github.io/VNAV2020-handouts/assets/js/search-data.json', true);
 
   request.onload = function(){
     if (request.status >= 200 && request.status < 400) {
