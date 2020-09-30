@@ -31,7 +31,7 @@
 </li>
 <li class="navigation-list-item"><a href="https://mit-spark.github.io/VNAV2020-handouts/about" class="navigation-list-link">How to print</a></li>
 </ul></nav></div>
-<footer class="site-footer"><p class="text-small text-grey-dk-000 mb-4"><b>Last modified</b>:<br> Wednesday, September 30 at 15:05</p></footer>
+<footer class="site-footer"><p class="text-small text-grey-dk-000 mb-4"><b>Last modified</b>:<br> Wednesday, September 30 at 16:59</p></footer>
 </div>
 <div class="main-content-wrap js-main-content" tabindex="0"><div class="main-content">
 <div class="page-header js-page-header"><div class="search">
@@ -94,7 +94,8 @@
 <p>Consider a sphere with radius $r$ centered at $[0\ 0\ d]$ with respect to the camera coordinate frame (centered at the optical center and with axis oriented as discussed in class). Assume $d &gt; r + 1$ and assume that the camera has principal point at $(0,0)$, focal length equal to 1, pixel sizes $s_x = s_y = 1$ and zero skew $s_\theta = 0$ (see lecture notes for notation) the following exercises:</p>
 <ol>
 <li>
-<strong>Derive</strong> the equation describing the projection of the sphere onto the image plane.</li>
+<strong>Derive</strong> the equation describing the projection of the sphere onto the image plane.<ul><li class="hint">Hint: Think about what shape you expect the projection on the image plane to be, and then derive a characterisitic equation for that shape in the image plane coordinates $u,v$ along with $r$ and $d$.</li></ul>
+</li>
 <li>
 <strong>Discuss</strong> what the projection becomes when the center of the sphere is at an arbitrary location, not necessarily along the optical axis. What is the shape of the projection?</li>
 </ol>
@@ -119,17 +120,17 @@
 <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">cd</span> ~/Labs
 git pull origin master
 </code></pre></div></div>
-<p>Copy the <code class="highlighter-rouge">lab5</code> directory into the <code class="highlighter-rouge">src</code> folder of your catkin workspace:</p>
+<p>Copy the contents of the <code class="highlighter-rouge">lab5</code> directory into the <code class="highlighter-rouge">src</code> folder of your catkin workspace:</p>
 <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">cp</span> <span class="nt">-r</span> ~/Labs/lab5 ~/vnav_ws/src
 <span class="nb">cd</span> ~/vnav_ws/src
 </code></pre></div></div>
 <p>Make sure to keep the <code class="highlighter-rouge">lab3</code> and <code class="highlighter-rouge">lab4</code> folders in your catkin workspace, too! Some of their dependencies (specifically <code class="highlighter-rouge">glog_catkin</code> and <code class="highlighter-rouge">catkin_simple</code>) are also required by <code class="highlighter-rouge">lab5</code>. Finally, build the code:</p>
 <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">cd</span> ~/vnav_ws
-catkin build <span class="nt">-j</span><span class="si">$(</span><span class="nb">nproc</span><span class="si">)</span>
+catkin build <span class="nt">-j</span><span class="si">$(</span><span class="nb">nproc</span><span class="si">)</span> lab_5
 </code></pre></div></div>
 <p><strong>NOTE:</strong> Building the <code class="highlighter-rouge">opencv3_catkin</code> package may take some time. As a point of comparison, running with <code class="highlighter-rouge">catkin build -j8</code> on my machine, it took 5.5 minutes. If you run into an error with ‘gflags’ when trying to build <code class="highlighter-rouge">opencv3_catkin</code>, run <code class="highlighter-rouge">catkin clean</code> to clean your workspace, then build <code class="highlighter-rouge">opencv3_catkin</code> <em>before</em> building the rest of the code, i.e.:</p>
 <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>catkin build <span class="nt">-j</span><span class="si">$(</span><span class="nb">nproc</span><span class="si">)</span> opencv3_catkin
-catkin build <span class="nt">-j</span><span class="si">$(</span><span class="nb">nproc</span><span class="si">)</span>
+catkin build <span class="nt">-j</span><span class="si">$(</span><span class="nb">nproc</span><span class="si">)</span> lab_5
 </code></pre></div></div>
 <h1 id="feature-tracking-and-matching"> <a href="#feature-tracking-and-matching" class="anchor-heading"><svg class="d-inline-block v-align-middle" viewbox="0 0 16 16" version="1.1" width="18" height="18" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a> Feature Tracking and Matching</h1>
 <p>Feature tracking between images is a fundamental module in many computer vision applications, as it allows us both to triangulate points in the scene and, at the same time, estimate the position and orientation of the camera from frame to frame (you will learn how to do so in subsequent lectures).</p>
@@ -145,8 +146,7 @@ catkin build <span class="nt">-j</span><span class="si">$(</span><span class="nb
 </ul>
 <p>As you have seen in the lecture, one very successful feature detector is SIFT (Scale Invariant Feature Transform), which is not only invariant to image rotations, but also to scale changes of the image.</p>
 <p>Let us now use SIFT to detect keypoints in an image to see what is the actual output.</p>
-<p>We want you to get familiar with state-of-the-art feature detectors, so we will avoid having you re-implement the detectors themselves and focus instead on their comparison. Refer to the tutorials in OpenCV for the different algorithms we will be using for more details. For example,</p>
-<p>SIFT, and its OpenCV API, is detailed <a href="https://docs.opencv.org/3.4.3/da/df5/tutorial_py_sift_intro.html" target="_blank" rel="noopener noreferrer">here</a>.</p>
+<p>We want you to get familiar with state-of-the-art feature detectors, so we will avoid having you re-implement the detectors themselves and focus instead on their comparison. Refer to the tutorials in OpenCV for the different algorithms we will be using for more details. For example, SIFT is detailed <a href="https://docs.opencv.org/3.4.3/da/df5/tutorial_py_sift_intro.html" target="_blank" rel="noopener noreferrer">here</a> and its OpenCV API is defined <a href="https://docs.opencv.org/3.4.11/d7/d60/classcv_1_1SIFT.html" target="_blank" rel="noopener noreferrer">here</a>. You will need to search through the OpenCV documentation for details on the other descriptors and methods mentioned in this handout.</p>
 <p><strong>NOTE</strong>: Check your OpenCV version.</p>
 <h2 id="-deliverable-3---feature-descriptors-sift-20-pts"> <a href="#-deliverable-3---feature-descriptors-sift-20-pts" class="anchor-heading"><svg class="d-inline-block v-align-middle" viewbox="0 0 16 16" version="1.1" width="18" height="18" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a> 📨 Deliverable 3 - Feature Descriptors (SIFT) [20 pts]</h2>
 <p>We provide you with skeleton code for the base class FeatureTracker that provides an abstraction layer for all feature trackers. Furthermore, we give you two empty structures for the SIFT and SURF methods that derive from the class FeatureTracker.</p>
