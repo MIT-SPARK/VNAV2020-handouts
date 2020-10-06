@@ -34,7 +34,7 @@
 </li>
 <li class="navigation-list-item"><a href="https://mit-spark.github.io/VNAV2020-handouts/about" class="navigation-list-link">How to print</a></li>
 </ul></nav></div>
-<footer class="site-footer"><p class="text-small text-grey-dk-000 mb-4"><b>Last modified</b>:<br> Monday, October 5 at 22:17</p></footer>
+<footer class="site-footer"><p class="text-small text-grey-dk-000 mb-4"><b>Last modified</b>:<br> Tuesday, October 6 at 09:17</p></footer>
 </div>
 <div class="main-content-wrap js-main-content" tabindex="0"><div class="main-content">
 <div class="page-header js-page-header"><div class="search">
@@ -197,7 +197,7 @@ catkin build <span class="nt">-j</span><span class="si">$(</span><span class="nb
 <li>Using the function we gave you, compute and plot the inlier and outlier matches, such as in the following figure: <img src="https://mit-spark.github.io/VNAV2020-handouts/assets/images/lab5/kp_matches.png" alt="Keypoint matches" class="mx-auto d-block"><ul>
 <li class="hint">Hint: Note that <code>FeatureTracker::inlierMaskComputation</code> computes an inlier mask of type <code>std::vector&lt;uchar&gt;</code>, but for <code>cv::drawMatches</code> you will need a <code>std::vector&lt;char&gt;</code>. You can go from one to the other by using:<br> <code>std::vector&lt;char&gt; char_inlier_mask{inlier_mask.begin(), inlier_mask.end()};</code>
 </li>
-<li class="hint">Hint: To combine flags for the <code>cv::drawMatches</code> function, use the bitwise-or operator: <code>DrawMatchesFlags::NOT_DRAW_SINGLE_POINTS | DrawMatchesFlags::DRAW_OVER_OUTIMG</code>
+<li class="hint">Hint: You will need to call the <code>cv::drawMatches</code> function twice, first to plot the everything in red (using <code>cv::Scalar(0,0,255)</code> as the color), and then again to plot inliers in green (using the inlier mask and <code>cv::Scalar(0,255,0)</code>). The second time, you will need to use the <code>DrawMatchesFlags::DRAW_OVER_OUTIMG</code> flag to draw on top of the first output. To combine flags for the <code>cv::drawMatches</code> function, use the bitwise-or operator: <code>DrawMatchesFlags::NOT_DRAW_SINGLE_POINTS | DrawMatchesFlags::DRAW_OVER_OUTIMG</code>
 </li>
 </ul>
 </li>
