@@ -40,7 +40,7 @@
 </li>
 <li class="navigation-list-item"><a href="https://mit-spark.github.io/VNAV2020-handouts/about" class="navigation-list-link">How to print</a></li>
 </ul></nav></div>
-<footer class="site-footer"><p class="text-small text-grey-dk-000 mb-4"><b>Last modified</b>:<br> Wednesday, October 21 at 16:25</p></footer>
+<footer class="site-footer"><p class="text-small text-grey-dk-000 mb-4"><b>Last modified</b>:<br> Monday, October 26 at 20:00</p></footer>
 </div>
 <div class="main-content-wrap js-main-content" tabindex="0"><div class="main-content">
 <div class="page-header js-page-header"><div class="search">
@@ -182,8 +182,13 @@
 <p>To do this, we will be using the modified version of DBoW2 from <a href="https://github.com/raulmur/ORB_SLAM2" target="_blank" rel="noopener noreferrer">ORB-SLAM</a>, a state-of-the-art Visual Odometry SLAM pipeline.</p>
 <h3 id="installation-1"> <a href="#installation-1" class="anchor-heading"><svg class="d-inline-block v-align-middle" viewbox="0 0 16 16" version="1.1" width="18" height="18" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a> Installation</h3>
 <p>Follow the Readme in our github fork of <a href="https://github.com/ToniRV/ORB_SLAM2" target="_blank" rel="noopener noreferrer">ORB-SLAM</a> (which modifies ORB-SLAM in order to publish loop closures in ROS).</p>
+<div class="alert alert-warning"><div class="alert-content">
+<h2 class="alert-title"> ATTENTION.</h2>
+<div class="alert-body"><p>Please run the following commands somewhere <b>OUTSIDE</b> of your catkin workspace (i.e., <b>not</b> in `vnav_ws`). It may still work for you if you run it inside, but some students have reported that ORB-SLAM will mistakenly link against other packages in your catkin workspace from previous labs and crash with a segmentation fault.</p></div>
+</div></div>
 <p>For most systems that have <code class="highlighter-rouge">ros-melodic-desktop</code> installed, the following steps should work:</p>
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>sudo apt install -y libglew-dev autoconf
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>cd ~ # or some other folder OUTSIDE your catkin workspace
+sudo apt install -y libglew-dev autoconf
 cd PATH/TO/VNAV_WS
 cd src/
 
@@ -201,6 +206,9 @@ pushd orb-slam2
 ./build.sh
 export ROS_PACKAGE_PATH=${ROS_PACKAGE_PATH}:$PWD/Examples/ROS
 ./build_ros.sh
+
+# OPTIONAL: Run this so that you can  do `rosrun ORB_SLAM2 ...` from anywhere 
+echo 'export ROS_PACKAGE_PATH=${ROS_PACKAGE_PATH}:'$PWD/Examples/ROS &gt;&gt; ~/.bashrc
 </code></pre></div></div>
 <p>Make sure you follow all the installation steps, including <a href="https://github.com/raulmur/ORB_SLAM2#building-the-nodes-for-mono-monoar-stereo-and-rgb-d" target="_blank" rel="noopener noreferrer">building ORB-SLAM in ROS</a>.</p>
 <h3 id="usage-1"> <a href="#usage-1" class="anchor-heading"><svg class="d-inline-block v-align-middle" viewbox="0 0 16 16" version="1.1" width="18" height="18" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a> Usage</h3>
