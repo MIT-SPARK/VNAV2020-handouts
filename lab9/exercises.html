@@ -43,7 +43,7 @@
 </li>
 <li class="navigation-list-item"><a href="https://mit-spark.github.io/VNAV2020-handouts/about" class="navigation-list-link">How to print</a></li>
 </ul></nav></div>
-<footer class="site-footer"><p class="text-small text-grey-dk-000 mb-4"><b>Last modified</b>:<br> Monday, November 2 at 17:58</p></footer>
+<footer class="site-footer"><p class="text-small text-grey-dk-000 mb-4"><b>Last modified</b>:<br> Monday, November 9 at 18:13</p></footer>
 </div>
 <div class="main-content-wrap js-main-content" tabindex="0"><div class="main-content">
 <div class="page-header js-page-header"><div class="search">
@@ -172,7 +172,7 @@ catkin build kimera_vio_ros
 </code></pre></div></div>
 <p>You can run “online” or “offline” on the EuRoC dataset bag file (see instructions in the Kimera README). In “online” mode, Kimera will subscribe to incoming images (expecting topic names to be in the correct EuRoC bag format), which will be provided when you separately <code class="highlighter-rouge">rosbag play</code> the appropriate bag file, and output trajectory estimates as it runs. In “offline” mode, Kimera will read directly from the bag file, processing messages one at a time.</p>
 <p>To run online, simply run:</p>
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>roslaunch kimera_vio_ros kimera_vio_ros_euroc.launch
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>roslaunch kimera_vio_ros kimera_vio_ros_euroc.launch log_output:<span class="o">=</span><span class="nb">true</span>
 </code></pre></div></div>
 <p>Then, in another terminal run RViZ:</p>
 <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>rviz <span class="nt">-d</span> <span class="si">$(</span>rospack find kimera_vio_ros<span class="si">)</span>/rviz/kimera_vio_euroc.rviz
